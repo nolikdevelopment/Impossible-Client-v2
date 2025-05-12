@@ -92,6 +92,9 @@ public class Module extends Feature implements Jsonable {
         this.enabled.setValue(true);
         this.onToggle();
         this.onEnable();
+        if (OyVey.moduleManager.getModuleByClass(Notifications.class).isEnabled()) {
+            Command.sendMessage(Formatting.WHITE + this.getDisplayName() + Formatting.GREEN + " on");
+        }
         if (this.isOn() && this.hasListener && !this.alwaysListening) {
             EVENT_BUS.register(this);
         }
@@ -102,6 +105,9 @@ public class Module extends Feature implements Jsonable {
             EVENT_BUS.unregister(this);
         }
         this.enabled.setValue(false);
+        if (OyVey.moduleManager.getModuleByClass(Notifications.class).isEnabled()) {
+            Command.sendMessage(Formatting.WHITE + this.getDisplayName() + Formatting.RED + " off");
+        }
         this.onToggle();
         this.onDisable();
     }
