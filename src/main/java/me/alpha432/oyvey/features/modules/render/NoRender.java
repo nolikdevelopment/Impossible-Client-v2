@@ -16,8 +16,10 @@ public class NoRender extends Module {
     public Setting<Boolean> totemanimation = bool("TotemAnimation", true);
     public Setting<Boolean> potions = bool("Potions", true);
     public Setting<Boolean> scoarboard = bool("Scoarboard", true);
+    public Setting<Boolean> beacon = bool("Beacon", true);
     public Setting<Boolean> bossbar = bool("Bossbar", true);
     public Setting<Boolean> explosion = bool("Explosion", true);
+    public Setting<Boolean> eatparticle = bool("EatParticles", true);
     public Setting<Boolean> gui = bool("Gui", true);
     public Setting<Boolean> weather = bool("Weather", true);
     public Setting<Boolean> spawnerEntity = bool("SpawnerEntity", true);

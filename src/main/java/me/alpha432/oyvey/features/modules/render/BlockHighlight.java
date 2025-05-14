@@ -21,7 +21,7 @@ public class BlockHighlight extends Module {
             if (shape.isEmpty()) return;
             Box box = shape.getBoundingBox();
             box = box.offset(result.getBlockPos());
-            RenderUtil.drawBox(event.getMatrix(), box, Color.white, 0.5f);
+            RenderUtil.drawBox(event.getMatrix(), box, Color.white, 1.5f);
         }
     }
 }

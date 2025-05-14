@@ -4,6 +4,8 @@ import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.modules.Module;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
+import java.util.Vector;
+
 public class NoFall extends Module {
     public NoFall() {
         super("NoFall", "Removes fall damage", Category.PLAYER, true, false, false);

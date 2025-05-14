@@ -1,10 +1,15 @@
 package me.alpha432.oyvey.features.modules.client;
 
 import me.alpha432.oyvey.OyVey;
+import me.alpha432.oyvey.event.Event;
 import me.alpha432.oyvey.event.impl.Render2DEvent;
 import me.alpha432.oyvey.features.modules.Module;
 import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
+
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class HudModule extends Module {
     public HudModule() {
@@ -15,6 +20,7 @@ public class HudModule extends Module {
     public void onRender2D(Render2DEvent event) {
         int width = mc.getWindow().getScaledWidth();
         int height = mc.getWindow().getScaledHeight();
+        int y = 0;
         int j = (mc.currentScreen instanceof ChatScreen) ? 13 : 0;
         event.getContext().drawTextWithShadow(
                 mc.textRenderer,
@@ -64,8 +70,17 @@ public class HudModule extends Module {
                 2, height - 11 - j -11,
                 -1
         );
-
-
+        event.getContext().drawTextWithShadow(
+                mc.textRenderer,
+                getDirection4D(),
+                2, height - 11 - j -11,
+                -1
+        );
+        for (Module module : OyVey.moduleManager.getEnabledModules().stream().filter(Module::isDrawn).sorted(Comparator.comparing(module -> mc.textRenderer.getWidth(module.getFullArrayString()) * -1)).collect(Collectors.toList())) {
+            String text = module.getName() + Formatting.GRAY + (this.getDisplayInfo() != null ? " [" + Formatting.WHITE + this.getDisplayInfo() + Formatting.GRAY + "]" : "");
+            event.getContext().drawTextWithShadow(mc.textRenderer, text, width - mc.textRenderer.getWidth(text), 2 + y * 10, -1);
+            y++;
+        }
     }
     public String getDirection4D() {
         int yaw = getYaw4D();

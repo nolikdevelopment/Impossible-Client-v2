@@ -14,7 +14,11 @@ import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.manager.ConfigManager;
 import me.alpha432.oyvey.util.traits.Jsonable;
 import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.network.PendingUpdateManager;
+import net.minecraft.client.network.SequencedPacketCreator;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.util.Formatting;
 
 public class Module extends Feature implements Jsonable {
@@ -93,7 +97,7 @@ public class Module extends Feature implements Jsonable {
         this.onToggle();
         this.onEnable();
         if (OyVey.moduleManager.getModuleByClass(Notifications.class).isEnabled()) {
-            Command.sendMessage(Formatting.WHITE + this.getDisplayName() + Formatting.GREEN + " on");
+            Command.sendMessage(Formatting.WHITE + this.getDisplayName() +":" + Formatting.GREEN + " on.");
         }
         if (this.isOn() && this.hasListener && !this.alwaysListening) {
             EVENT_BUS.register(this);
@@ -106,7 +110,7 @@ public class Module extends Feature implements Jsonable {
         }
         this.enabled.setValue(false);
         if (OyVey.moduleManager.getModuleByClass(Notifications.class).isEnabled()) {
-            Command.sendMessage(Formatting.WHITE + this.getDisplayName() + Formatting.RED + " off");
+            Command.sendMessage(Formatting.WHITE + this.getDisplayName() +":" + Formatting.RED + " off.");
         }
         this.onToggle();
         this.onDisable();
@@ -222,6 +226,19 @@ public class Module extends Feature implements Jsonable {
 
         public String getName() {
             return this.name;
+        }
+    }
+    public void sendPacket(Packet<?> packet){
+        if (mc.getNetworkHandler() != null) {
+            mc.getNetworkHandler().sendPacket(packet);
+        }
+    }
+
+    protected void sendSequencedPacket(SequencedPacketCreator packetCreator) {
+        if (mc.getNetworkHandler() == null || mc.world == null) return;
+        try (PendingUpdateManager pendingUpdateManager = mc.world.getPendingUpdateManager().incrementSequence()) {
+            int i = pendingUpdateManager.getSequence();
+            mc.getNetworkHandler().sendPacket(packetCreator.predict(i));
         }
     }
 }
