@@ -20,26 +20,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(TitleScreen.class)
 public abstract class TitleScreenMixin extends Screen {
-
-    @Shadow
-    @Nullable
-    private SplashTextRenderer splashText;
-
-    @Shadow
-    @Final
-    public static Text COPYRIGHT;
-
-    protected abstract void initWidgetsDemo(int y, int spacingY);
-
-    protected abstract void initWidgetsNormal(int y, int spacingY);
-
-    @Shadow
-    @Nullable
-    private RealmsNotificationsScreen realmsNotificationGui;
-
-    @Shadow
-    protected abstract boolean isRealmsNotificationsGuiDisplayed();
-
     @Shadow
     private long backgroundFadeStart;
 
@@ -59,7 +39,7 @@ public abstract class TitleScreenMixin extends Screen {
         if ((i & 0xFC000000) == 0) {
             return;
         }
-        context.drawTextWithShadow(textRenderer, Formatting.WHITE + OyVey.NAME + " ", 1, height - (client.textRenderer.fontHeight * 60) - 0, 1  | i);
+        context.drawTextWithShadow(textRenderer, Formatting.WHITE + OyVey.NAME + " ", 1, height - (client.textRenderer.fontHeight * 60) - -1, 1  | i);
 
 
     }

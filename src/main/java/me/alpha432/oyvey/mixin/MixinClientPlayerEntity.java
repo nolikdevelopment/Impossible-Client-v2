@@ -4,16 +4,14 @@ import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.event.Stage;
 import me.alpha432.oyvey.event.impl.UpdateEvent;
 import me.alpha432.oyvey.event.impl.UpdateWalkingPlayerEvent;
-import me.alpha432.oyvey.features.modules.player.NoSlow;
+import me.alpha432.oyvey.features.modules.player.Velocity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
-import static me.alpha432.oyvey.util.traits.Util.mc;
 
 @Mixin(ClientPlayerEntity.class)
 public class MixinClientPlayerEntity {
@@ -31,13 +29,16 @@ public class MixinClientPlayerEntity {
     private void tickHook3(CallbackInfo ci) {
         EVENT_BUS.post(new UpdateWalkingPlayerEvent(Stage.POST));
     }
+    @Inject(method = "pushOutOfBlocks", at = @At("HEAD"), cancellable = true)
+    private void pushOutOfBlocks(double x, double z, CallbackInfo callbackInfo) {
+        Velocity velocity = OyVey.moduleManager.getModuleByClass(Velocity.class);
+        if (velocity.isEnabled() && velocity.blockPush.getValue()) {
+            callbackInfo.cancel();
+        }
 
-    @Redirect(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z"), require = 0)
-    private boolean tickMovementHook(ClientPlayerEntity player) {
-        NoSlow noSlow = OyVey.moduleManager.getModuleByClass(NoSlow.class);
-        if (noSlow.isEnabled()) ;
-
-
-        return false;
     }
-}
+
+        }
+
+
+
