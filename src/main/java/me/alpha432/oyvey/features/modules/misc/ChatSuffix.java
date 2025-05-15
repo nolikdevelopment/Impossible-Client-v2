@@ -10,6 +10,8 @@ import java.util.Objects;
 
 public class ChatSuffix extends Module {
     private final Setting<String> messages = this.register(new Setting<>("Message:", " | Impossible Client 2.0"));
+    private Object ImpossibeMessage = "";
+
     public ChatSuffix() {
 
         super("ChatSuffix", "", Category.MISC, true,false,false);
@@ -23,7 +25,7 @@ public class ChatSuffix extends Module {
                 return;
             }
             message = packet.chatMessage() + messages.getValue();
-            mc.player.networkHandler.sendChatMessage(packet.chatMessage() + messages.getValue());
+            mc.player.networkHandler.sendChatMessage(packet.chatMessage() + messages.getValue() + ImpossibeMessage);
             event.cancel();
 
         }
