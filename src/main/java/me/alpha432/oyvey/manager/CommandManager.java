@@ -15,7 +15,7 @@ import java.util.List;
 public class CommandManager
         extends Feature implements Jsonable {
     private final List<Command> commands = new ArrayList<>();
-    private String clientMessage = "<OyVey>";
+    private String clientMessage = "[Impossible]";
     private String prefix = ".";
 
     public CommandManager() {
@@ -25,8 +25,9 @@ public class CommandManager
         commands.add(new FriendCommand());
         commands.add(new ModuleCommand());
         commands.add(new PrefixCommand());
-
+        commands.add(new FolderCommand());
         commands.add(new HelpCommand());
+        commands.add(new KillCommand());
     }
 
     public static String[] removeElement(String[] input, int indexToDelete) {
