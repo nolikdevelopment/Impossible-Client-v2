@@ -3,7 +3,9 @@ package me.alpha432.oyvey.features.modules.render;
 import com.google.common.eventbus.Subscribe;
 import me.alpha432.oyvey.event.impl.Render3DEvent;
 import me.alpha432.oyvey.features.modules.Module;
+import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.util.RenderUtil;
+import net.minecraft.util.Colors;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.shape.VoxelShape;
@@ -11,6 +13,10 @@ import net.minecraft.util.shape.VoxelShape;
 import java.awt.*;
 
 public class BlockHighlight extends Module {
+    public Setting<Float> lines = this.register(new Setting<>("Line:", 1.5f, 0.1f, 5f));
+    public Setting<Integer> alpha = num("HoverAlpha", 240, 0, 255);
+
+
     public BlockHighlight() {
         super("BlockHighlight", "Draws box at the block that you are looking at", Category.RENDER, true, false, false);
     }
@@ -21,7 +27,8 @@ public class BlockHighlight extends Module {
             if (shape.isEmpty()) return;
             Box box = shape.getBoundingBox();
             box = box.offset(result.getBlockPos());
-            RenderUtil.drawBox(event.getMatrix(), box, Color.white, 1.5f);
+            RenderUtil.drawBox(event.getMatrix(), box, Color.white, lines.getValue());
+            RenderUtil.drawBoxFilled(event.getMatrix(), box, new Color(255, 255, 255, alpha.getValue()));
         }
     }
 }
