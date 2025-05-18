@@ -3,6 +3,7 @@ package me.alpha432.oyvey.features.modules.render;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Setting;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.BlockBreakingInfo;
 
 
 public class NoRender extends Module {
@@ -14,7 +15,9 @@ public class NoRender extends Module {
     public Setting<Boolean> hurtcamera = bool("HurtCamera", true);
     public Setting<Boolean> liquidOverlay = bool("LiquidOverlay", true);
     public Setting<Boolean> totemanimation = bool("TotemAnimation", true);
+    public Setting<Boolean> pumkinOverlay = bool("Potions", true);
     public Setting<Boolean> potions = bool("Potions", true);
+    public Setting<Boolean> fog = bool("Potions", true);
     public Setting<Boolean> scoarboard = bool("Scoarboard", true);
     public Setting<Boolean> beacon = bool("Beacon", true);
     public Setting<Boolean> bossbar = bool("Bossbar", true);
