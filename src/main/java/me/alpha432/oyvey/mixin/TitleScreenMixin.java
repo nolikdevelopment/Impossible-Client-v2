@@ -39,7 +39,7 @@ public abstract class TitleScreenMixin extends Screen {
         if ((i & 0xFC000000) == 0) {
             return;
         }
-        context.drawTextWithShadow(textRenderer, Formatting.WHITE + OyVey.NAME + " ", 1, height - (client.textRenderer.fontHeight * 60) - -1, 1  | i);
+        context.drawTextWithShadow(textRenderer, Formatting.WHITE + OyVey.NAME + " " + "- 18/05/2025 9:11", 1, height - (client.textRenderer.fontHeight * 60) - -1, 1  | i);
 
 
     }
