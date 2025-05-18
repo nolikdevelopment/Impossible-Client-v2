@@ -13,7 +13,9 @@ import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 
@@ -73,9 +75,18 @@ public class MixinInGameHud {
     @Inject(method = "renderHeldItemTooltip", at = @At("HEAD"), cancellable = true)
     public void renderHeldItemTooltipHook(DrawContext context, CallbackInfo callbackInfo) {
         NoRender noRender = OyVey.moduleManager.getModuleByClass(NoRender.class);
-        if (noRender.isEnabled()& noRender.hotbaritemname.getValue())
+        if (noRender.isEnabled() && noRender.hotbaritemname.getValue())
             callbackInfo.cancel();
     }
+    @ModifyArgs(method = "renderMiscOverlays", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/InGameHud;renderOverlay(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/util/Identifier;F)V", ordinal = 0))
+    private void renderMiscOverlays(Args args) {
+        NoRender noRender = OyVey.moduleManager.getModuleByClass(NoRender.class);
+        if (noRender.isEnabled() && noRender.pumkinOverlay.getValue())
+            args.set(2, 0f);
+
+
+    }
+
 
 
 
