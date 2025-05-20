@@ -27,6 +27,7 @@ public class NoRender extends Module {
     public Setting<Boolean> weather = bool("Weather", true);
     public Setting<Boolean> spawnerEntity = bool("SpawnerEntity", true);
     public Setting<Boolean> hotbaritemname = bool("HotbatItemName", true);
+    public Setting<Boolean> portalchat = bool("PortalChat", true);
 
 
     public NoRender() {
