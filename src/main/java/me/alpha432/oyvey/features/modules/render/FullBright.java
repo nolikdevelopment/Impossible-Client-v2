@@ -12,8 +12,8 @@ public class FullBright extends Module {
         super("FullBright", "", Category.RENDER, true, false, false);
     }
 
-    @Override
-    public void onEnable() {
+    @Subscribe
+    public void onPacket(PacketEvent event) {
         if (nullCheck()) return;
         if (!mc.player.hasStatusEffect(StatusEffects.NIGHT_VISION)) {
             mc.player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, StatusEffectInstance.INFINITE));
@@ -28,13 +28,6 @@ public class FullBright extends Module {
         if (mc.player.hasStatusEffect(StatusEffects.NIGHT_VISION)) {
             mc.player.removeStatusEffect(StatusEffects.NIGHT_VISION);
         }
-
     }
-    @Subscribe
-    public void onPacket(PacketEvent.Send event) {
-        if (!mc.player.hasStatusEffect(StatusEffects.NIGHT_VISION));
-        mc.player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, StatusEffectInstance.INFINITE));
-
     }
-}
 

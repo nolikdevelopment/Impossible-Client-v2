@@ -8,6 +8,7 @@ import net.minecraft.entity.player.BlockBreakingInfo;
 
 public class NoRender extends Module {
     public Setting<Boolean> fire = bool("FireOverlay", true);
+    public Setting<Boolean> particles = bool("Parcticles", true);
     public Setting<Boolean> armour = bool("Armour", true);
     public Setting<Boolean> blockoverlay = bool("BlockOverlay", true);
     public Setting<Boolean> wateroverlay = bool("WaterOverlay", true);
@@ -15,9 +16,9 @@ public class NoRender extends Module {
     public Setting<Boolean> hurtcamera = bool("HurtCamera", true);
     public Setting<Boolean> liquidOverlay = bool("LiquidOverlay", true);
     public Setting<Boolean> totemanimation = bool("TotemAnimation", true);
-    public Setting<Boolean> pumkinOverlay = bool("Potions", true);
+    public Setting<Boolean> pumkinOverlay = bool("PumkinOverlay", true);
     public Setting<Boolean> potions = bool("Potions", true);
-    public Setting<Boolean> fog = bool("Potions", true);
+    public Setting<Boolean> fog = bool("Fog", true);
     public Setting<Boolean> scoarboard = bool("Scoarboard", true);
     public Setting<Boolean> beacon = bool("Beacon", true);
     public Setting<Boolean> bossbar = bool("Bossbar", true);
