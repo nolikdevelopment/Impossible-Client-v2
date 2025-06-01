@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
+import static me.alpha432.oyvey.util.traits.Util.mc;
 
 @Mixin(ClientPlayerEntity.class)
 public class MixinClientPlayerEntity {
@@ -44,17 +45,31 @@ public class MixinClientPlayerEntity {
     }
     @ModifyExpressionValue(method = "tickNausea", at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;currentScreen:Lnet/minecraft/client/gui/screen/Screen;"))
     private Screen tickNausea(Screen original) {
-        NoRender noRender = OyVey.moduleManager.getModuleByClass(NoRender.class);
-        if (noRender.isEnabled()&& noRender.portalchat.getValue()) return null;
+        NoSlow noSlow = OyVey.moduleManager.getModuleByClass(NoSlow.class);
+        if (noSlow.isEnabled() && noSlow.portals.getValue()) return null;
         return original;
     }
-    @Redirect(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z"), require = 0)
-    private boolean tickMovementHook(ClientPlayerEntity player) {
+    @ModifyExpressionValue(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z"))
+    private boolean tickMovement$isUsingItem(boolean original) {
         NoSlow noSlow = OyVey.moduleManager.getModuleByClass(NoSlow.class);
-        if (noSlow.isEnabled() && noSlow.food.getValue())
+        if (noSlow.isEnabled() && noSlow.food.getValue()) {
+            mc.player.setSprinting(true);
             return false;
-       return player.isUsingItem();
+        }
+
+        return original;
     }
+    @ModifyExpressionValue(method = "canStartSprinting", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z"))
+    private boolean canStartSprinting(boolean original) {
+        NoSlow noSlow = OyVey.moduleManager.getModuleByClass(NoSlow.class);
+        if (noSlow.isEnabled() && noSlow.food.getValue()) {
+            mc.player.setSprinting(true);
+            return false;
+        }
+        return original;
+
+    }
+
 
 
 }
