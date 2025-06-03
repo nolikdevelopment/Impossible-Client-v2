@@ -9,6 +9,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class HudModule extends Module {
@@ -76,7 +77,13 @@ public class HudModule extends Module {
                 2, height - 11 - j -11,
                 -1
         );
-        for (Module module : OyVey.moduleManager.getEnabledModules().stream().filter(Module::isDrawn).sorted(Comparator.comparing(module -> mc.textRenderer.getWidth(module.getFullArrayString()) * -1)).collect(Collectors.toList())) {
+        event.getContext().drawTextWithShadow(
+                mc.textRenderer,
+                "Good to see you, " + mc.player.getName().getString(),
+                380, 2,
+        -1
+        );
+        for (Module module : OyVey.moduleManager.getEnabledModules().stream().filter(Module::isEnabled).sorted(Comparator.comparing(module -> mc.textRenderer.getWidth(module.getDisplayName()) * -1)).collect(Collectors.toList())) {
             String text = module.getName() + Formatting.GRAY + (this.getDisplayInfo() != null ? " [" + Formatting.WHITE + this.getDisplayInfo() + Formatting.GRAY + "]" : "");
             event.getContext().drawTextWithShadow(mc.textRenderer, text, width - mc.textRenderer.getWidth(text), 2 + y * 10, -1);
             y++;
