@@ -12,6 +12,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.SwordItem;
 import net.minecraft.util.Hand;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
 
 public class Aura extends Module {
@@ -19,6 +20,7 @@ public class Aura extends Module {
     public Setting<Boolean> players = bool("Players", true);
     public Setting<Boolean> mobs = bool("Mobs", true);
     private final Setting<Float> range = num("Range", 4f, 1f, 6f);
+    private PlayerEntity target;
 
 
 
@@ -39,7 +41,8 @@ public class Aura extends Module {
                 if (!(mc.player.getMainHandStack().getItem() instanceof SwordItem)) return;
                 {
                 }
-                if (entity instanceof PlayerEntity && players.getValue()) {
+                if (entity instanceof PlayerEntity player && players.getValue()) {
+                    target = player;
                     attackEntity(entity);
                 }
                 if (entity instanceof MobEntity && mobs.getValue()) {
@@ -60,5 +63,8 @@ public class Aura extends Module {
             mc.player.swingHand(Hand.MAIN_HAND);
             timer.reset();
         }
+    }
+    @Override public String getDisplayInfo() {
+        return target != null ? target.getName().getString(): null;
     }
 }
