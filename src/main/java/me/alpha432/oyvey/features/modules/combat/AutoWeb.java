@@ -7,6 +7,7 @@ import me.alpha432.oyvey.util.InteractionUtil;
 import me.alpha432.oyvey.util.InventoryUtil;
 import net.minecraft.block.CobwebBlock;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 
 public class AutoWeb extends Module {
@@ -25,6 +26,7 @@ public class AutoWeb extends Module {
                 if (slot != -1) {
                     InventoryUtil.switchSlot(slot);
                     InteractionUtil.placeblock(pos, false);
+                    InteractionUtil.placeblock(pos.up(1), false);
                     InventoryUtil.switchSlot(oldslot);
                 }
             }
