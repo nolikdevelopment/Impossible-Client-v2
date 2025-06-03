@@ -83,9 +83,12 @@ public class HudModule extends Module {
                 380, 2,
         -1
         );
-        for (Module module : OyVey.moduleManager.getEnabledModules().stream().filter(Module::isEnabled).sorted(Comparator.comparing(module -> mc.textRenderer.getWidth(module.getDisplayName()) * -1)).collect(Collectors.toList())) {
-            String text = module.getName() + Formatting.GRAY + (this.getDisplayInfo() != null ? " [" + Formatting.WHITE + this.getDisplayInfo() + Formatting.GRAY + "]" : "");
-            event.getContext().drawTextWithShadow(mc.textRenderer, text, width - mc.textRenderer.getWidth(text), 2 + y * 10, -1);
+        for (Module module : OyVey.moduleManager.getEnabledModules().stream().filter(Module::isDrawn).sorted(Comparator.comparing(module -> mc.textRenderer.getWidth(module.getFullArrayString()) * -1)).collect(Collectors.toList())) {
+            if (!module.isDrawn()) continue;
+            String str = module.getName() + Formatting.GRAY + (module.getDisplayInfo() != null ? " [" + Formatting.WHITE + module.getDisplayInfo() + Formatting.GRAY + "]" : "");
+
+            event.getContext().drawTextWithShadow(mc.textRenderer, str, (int) ((width - mc.textRenderer.getWidth(str) - 2f)), (2 + y * 10), -1);
+
             y++;
         }
     }
