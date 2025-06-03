@@ -58,10 +58,13 @@ public class ElytraFly extends Module {
         }
         if (mode.getValue() == Mod.Bounce) {
             if (mc.player.isGliding() && mc.player.isOnGround()) {
-                mc.player.jump();
                 mc.player.startGliding();
+                mc.player.jump();
                 mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
             }
         }
+    }
+    @Override public String getDisplayInfo() {
+        return mode.getValue().toString();
     }
 }
