@@ -85,6 +85,7 @@ public class ModuleManager implements Jsonable, Util {
         modules.add(new ViewClip());
         modules.add(new AutoWeb());
         modules.add(new SelfWeb());
+        modules.add(new AntiVanish());
     }
 
     public Module getModuleByName(String name) {
