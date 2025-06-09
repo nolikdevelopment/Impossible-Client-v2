@@ -2,12 +2,12 @@ package me.alpha432.oyvey.features.modules.combat;
 
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Setting;
+import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 
 public class AutoLog extends Module {
-    private final Setting<Float> hp = num("Healths:", 2f, 1f, 36f);
-    public Setting<Boolean> autodisable = bool("AutoDisable", true);
-
+    private final Setting<Integer> hp = num("Healths:", 2, 1, 36);
+    private final Setting<Integer> totem = num("Totems:", 2, 1, 36);
 
 
 
@@ -16,18 +16,18 @@ public class AutoLog extends Module {
     }
 
     @Override
-    public void onUpdate(){
-        if (nullCheck()) return;
-
-        int heal = (int) (mc.player.getHealth() + mc.player.getAbsorptionAmount());
-
-        if (heal <= hp.getValue()){
-            mc.getNetworkHandler().getConnection().disconnect(Text.of("Кикнут из за маленького количества ХП!"));
-
-
-
-            if (autodisable.getValue()) disable();
+    public void onTick() {
+        if (fullNullCheck()) return;
+        if (mc.player.getHealth() <= hp.getValue()) {
+            mc.getNetworkHandler().getConnection().disconnect(Text.of("У вас маленькое количество здоровья! " + mc.player.getHealth()));
+            disable();
+        }
+        if (mc.player.getInventory().count(Items.TOTEM_OF_UNDYING) == totem.getValue()) {
+            mc.getNetworkHandler().getConnection().disconnect(Text.of("У вас маленькое количество тотемов!"));
+            disable();
         }
     }
+
 }
+
 
