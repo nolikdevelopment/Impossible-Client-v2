@@ -1,8 +1,10 @@
 package me.alpha432.oyvey.features.modules.movement;
 
+import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Setting;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
 
@@ -13,8 +15,8 @@ public class ElytraFly extends Module {
         Control, Bounce
     }
 
-    private final Setting<Float> vertical = num("Vertical", 4f, 1f, 6f);
-    private final Setting<Float> horizontal = num("Horizontal", 4f, 1f, 6f);
+    private final Setting<Float> horizontal = num("Vertical", 4f, 1f, 6f);
+    private final Setting<Float> vertical = num("Horizontal", 4f, 1f, 6f);
 
     public ElytraFly() {
         super("ElytraFly", "", Category.MOVEMENT, true, false, false);
@@ -57,10 +59,10 @@ public class ElytraFly extends Module {
             }
         }
         if (mode.getValue() == Mod.Bounce) {
-            if (mc.player.isGliding() && mc.player.isOnGround()) {
-                mc.player.startGliding();
+            if (!mc.player.isGliding() && mc.player.isOnGround() && mc.player.fallDistance > 0 && mc.player.input.movementForward > 0) {
                 mc.player.jump();
                 mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
+                mc.player.startGliding();
             }
         }
     }
