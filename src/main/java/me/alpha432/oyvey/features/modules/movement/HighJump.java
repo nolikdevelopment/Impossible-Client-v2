@@ -10,9 +10,9 @@ public class HighJump extends Module {
         super("HightJump", "", Category.MOVEMENT, true,false,false);
     }
     @Override
-    public void onUpdate() {
+    public void onTick() {
         PlayerEntity player = mc.player;
-        if (mc.player.isSprinting() && mc.options.jumpKey.isPressed()) {
+        if (mc.player.input.movementForward > 0 && mc.options.jumpKey.isPressed() && !mc.player.isOnGround()) {
             player.setVelocity(player.getVelocity().x, height.getValue(), player.getVelocity().z);
         }
     }
