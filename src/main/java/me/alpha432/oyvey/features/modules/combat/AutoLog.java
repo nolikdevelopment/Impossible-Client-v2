@@ -13,6 +13,7 @@ public class AutoLog extends Module {
     private final Setting<Integer> range = num("InRange:", 20, 1, 120);
     public Setting<Boolean> playerRange = bool("playerRange", true);
     public Setting<Boolean> Yheight = bool("YHeight", true);
+    public Setting<Boolean> isOnGround = bool("isOnGround", true);
     private final Setting<Integer> height = num("Height:", 0, 0, 256);
 
     public AutoLog() {
@@ -39,6 +40,10 @@ public class AutoLog extends Module {
         }
         if (mc.player.getY() < height.getValue() && Yheight.getValue()) {
             mc.getNetworkHandler().getConnection().disconnect(Text.of("Предел вашей высоты достил предела, выхожу с сервера!"));
+            disable();
+        }
+        if (!mc.player.isOnGround() && isOnGround.getValue()) {
+            mc.getNetworkHandler().getConnection().disconnect(Text.of("Вы находитесь в воздухе, отключаю!"));
             disable();
         }
     }
