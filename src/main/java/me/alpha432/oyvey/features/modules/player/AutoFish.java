@@ -11,7 +11,6 @@ import net.minecraft.util.Hand;
 
 public class AutoFish extends Module {
     private boolean castdelay = false;
-    private boolean twodelay = false;
     private final Setting<Integer> delay = num("Delay", 0, 1, 60);
     private Timer timer = new Timer();
 
@@ -25,27 +24,21 @@ public class AutoFish extends Module {
     public void onPacket(PacketEvent.Receive event) {
         if (event.getPacket() instanceof PlaySoundS2CPacket packet) {
             if (packet.getSound().value() == SoundEvents.ENTITY_FISHING_BOBBER_SPLASH) {
-                    mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
-                    castdelay = true;
-                    twodelay = true;
-                    timer.reset();
+                mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
+                castdelay = true;
+                timer.reset();
             }
         }
     }
 
     @Override
-    public void onTick() {
-        if (fullNullCheck()) return;
-        if (!castdelay && timer.passedS(delay.getValue())) { // закинули
-            mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
-            castdelay = true;
-            timer.reset();
-        }
-        if (twodelay && timer.passedS(delay.getValue())) { // вытащили
-            mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
-            twodelay = false;
-            castdelay = false;
-            timer.reset();
+    public void onTick () {
+        if (castdelay) {
+            if (timer.passedS(delay.getValue())) {
+                mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
+                castdelay = false;
+                timer.reset();
+            }
         }
     }
 }
