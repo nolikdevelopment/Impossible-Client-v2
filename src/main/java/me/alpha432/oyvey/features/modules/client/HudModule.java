@@ -9,11 +9,14 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -28,6 +31,7 @@ public class HudModule extends Module {
     public Setting<Boolean> tps = bool("TPS", true);
     public Setting<Boolean> fps = bool("FPS", true);
     public Setting<Boolean> xyz = bool("XYZ", true);
+    public Setting<Boolean> time = bool("Time", true);
     public Setting<Boolean> direction = bool("Direction", true);
     public Setting<Boolean> welcomer = bool("Welcomer", true);
     public Setting<Boolean> arrayList = bool("ArrayList", true);
@@ -50,7 +54,8 @@ public class HudModule extends Module {
             event.getContext().drawTextWithShadow(mc.textRenderer, "ServerBrand: " + Formatting.WHITE + OyVey.serverManager.getServerBrand(), 2, 12, OyVey.colorManager.getColorWithAlpha(255));
         }
         if (speed.getValue()) {
-            event.getContext().drawTextWithShadow(mc.textRenderer, "Speed: " + Formatting.WHITE + (int) OyVey.speedManager.getSpeedKpH() + " km/h", 2, 22, OyVey.colorManager.getColorWithAlpha(255));
+            int speedValue = (int) OyVey.speedManager.getSpeedKpH();
+            event.getContext().drawTextWithShadow(mc.textRenderer, "Speed: " + Formatting.WHITE + speedValue + " km/h", 2, 22, OyVey.colorManager.getColorWithAlpha(255));
         }
         if (ping.getValue()) {
             event.getContext().drawTextWithShadow(mc.textRenderer, "Ping: " + Formatting.WHITE + OyVey.serverManager.getPing() + "ms", 2, 34, OyVey.colorManager.getColorWithAlpha(255));
@@ -65,6 +70,10 @@ public class HudModule extends Module {
         if (direction.getValue()) {
             event.getContext().drawTextWithShadow(mc.textRenderer, getDirection4D() + Formatting.WHITE + "Yaw: " + (int) yawPitch + " " + "Pitch: " + (int) mc.player.getPitch(), 2, height - 11 - j - 11, OyVey.colorManager.getColorWithAlpha(255));
         }
+        if (time.getValue()) {
+            String time = "Time: " + Formatting.WHITE + new SimpleDateFormat("HH:mm:ss").format(new Date());
+            event.getContext().drawTextWithShadow(mc.textRenderer, time + Formatting.WHITE, (width / 2) - mc.textRenderer.getWidth(time) / 2,  11, OyVey.colorManager.getColorWithAlpha(255));
+        }
         if (arrayList.getValue()) {
             event.getContext().drawTextWithShadow(mc.textRenderer, "Good to see you, " + Formatting.WHITE + mc.player.getName().getString(), (width / 2) - mc.textRenderer.getWidth("Good to see you, " + mc.player.getName().getString()) / 2, 2, OyVey.colorManager.getColorWithAlpha(255));
             for (Module module : OyVey.moduleManager.getEnabledModules().stream().filter(Module::isDrawn).sorted(Comparator.comparing(module -> mc.textRenderer.getWidth(module.getFullArrayString()) * -1)).collect(Collectors.toList())) {
@@ -75,6 +84,36 @@ public class HudModule extends Module {
 
                 y++;
             }
+        }
+
+        int z = mc.getWindow().getScaledHeight() - mc.textRenderer.fontHeight - 3;
+
+        for (StatusEffectInstance effectInstance : mc.player.getStatusEffects()) {
+            StatusEffect effect = effectInstance.getEffectType().value();
+            String effectName = Text.translatable(effect.getTranslationKey()).getString();
+
+            int durationTicks = effectInstance.getDuration();
+
+            String timeText;
+
+            if (durationTicks <= 0 || durationTicks > 1000000) {
+                timeText = "\u221E";
+            } else {
+                int totalSeconds = durationTicks / 20;
+                int minutes = totalSeconds / 60;
+                int seconds = totalSeconds % 60;
+                timeText = String.format("%d:%02d", minutes, seconds);
+            }
+
+            String text = effectName + ": " + Formatting.WHITE + timeText;
+
+            int textWidth = mc.textRenderer.getWidth(text);
+            int screenWidth = mc.getWindow().getScaledWidth();
+
+            int x = screenWidth - textWidth;
+
+            event.getContext().drawTextWithShadow(mc.textRenderer, text, x, z, OyVey.colorManager.getColorWithAlpha(255));
+            z -= mc.textRenderer.fontHeight + 2;
         }
     }
 
