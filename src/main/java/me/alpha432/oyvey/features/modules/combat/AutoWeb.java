@@ -7,6 +7,8 @@ import me.alpha432.oyvey.util.InteractionUtil;
 import me.alpha432.oyvey.util.InventoryUtil;
 import net.minecraft.block.CobwebBlock;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Items;
+import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 
@@ -25,6 +27,7 @@ public class AutoWeb extends Module {
                 BlockPos pos = player.getBlockPos();
                 if (slot != -1) {
                     InventoryUtil.switchSlot(slot);
+                    OyVey.rotationManager.rotateToBlockPos(pos);
                     InteractionUtil.placeblock(pos, false);
                     InteractionUtil.placeblock(pos.up(1), false);
                     InventoryUtil.switchSlot(oldslot);

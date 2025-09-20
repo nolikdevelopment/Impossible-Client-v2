@@ -7,6 +7,7 @@ import me.alpha432.oyvey.util.InventoryUtil;
 import net.minecraft.item.ExperienceBottleItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 
@@ -26,8 +27,9 @@ public class AutoExp extends Module {
                 int slot = InventoryUtil.findHotbarItem(ExperienceBottleItem.class);
                 if (slot != -1) {
                     InventoryUtil.switchSlot(slot);
-                    mc.player.swingHand(Hand.MAIN_HAND, true);
-                    mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
+                    mc.player.swingHand(Hand.MAIN_HAND);
+                    mc.player.networkHandler.sendPacket(new PlayerInteractItemC2SPacket(Hand.MAIN_HAND, 0 , mc.player.getYaw(), 90));
+                    OyVey.rotationManager.rotate(mc.player.getYaw(), 90);
                     InventoryUtil.switchSlot(oldslot);
                 }
             }

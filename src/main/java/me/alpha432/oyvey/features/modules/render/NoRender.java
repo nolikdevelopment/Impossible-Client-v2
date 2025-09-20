@@ -3,7 +3,7 @@ package me.alpha432.oyvey.features.modules.render;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Setting;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.BlockBreakingInfo;
+
 
 
 public class NoRender extends Module {
@@ -11,6 +11,7 @@ public class NoRender extends Module {
     public Setting<Boolean> particles = bool("Parcticles", true);
     public Setting<Boolean> armour = bool("Armour", true);
     public Setting<Boolean> blockoverlay = bool("BlockOverlay", true);
+    public Setting<Boolean> crystals = bool("Crystals", true);
     public Setting<Boolean> wateroverlay = bool("WaterOverlay", true);
     public Setting<Boolean> portaloverlay = bool("PortalOverlay", true);
     public Setting<Boolean> hurtcamera = bool("HurtCamera", true);
@@ -28,7 +29,7 @@ public class NoRender extends Module {
     public Setting<Boolean> weather = bool("Weather", true);
     public Setting<Boolean> spawnerEntity = bool("SpawnerEntity", true);
     public Setting<Boolean> hotbaritemname = bool("HotbatItemName", true);
-    public Setting<Boolean> portalchat = bool("PortalChat", true);
+    public Setting<Boolean> toast = bool("Toast", true);
 
 
     public NoRender() {

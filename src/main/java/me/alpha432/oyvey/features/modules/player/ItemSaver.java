@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.MiningToolItem;
 
 public class ItemSaver extends Module {
-    public Setting<Double> save = this.register(new Setting<>("Save", 5d, 1d, 100d));
     public ItemSaver() {
         super("ItemSaver", "", Category.PLAYER, true,false,false);
     }
@@ -15,7 +14,7 @@ public class ItemSaver extends Module {
         if (!(tool.getItem() instanceof MiningToolItem)) return;
         float dur = tool.getMaxDamage() - tool.getDamage();
         int prch = (int) ((dur / (float) tool.getMaxDamage() * 100));
-        if (prch <= save.getValue()) {
+        if (prch <= 10) {
             mc.player.getInventory().selectedSlot = findSlot();
         }
     }

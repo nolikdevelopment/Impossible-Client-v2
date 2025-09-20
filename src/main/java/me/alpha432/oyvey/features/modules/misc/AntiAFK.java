@@ -29,8 +29,6 @@ public class AntiAFK extends Module {
             }
             if (sneak.getValue()) {
                 mc.options.sneakKey.setPressed(true);
-            } else {
-                mc.options.sneakKey.setPressed(false);
             }
             timer.reset();
         } else {

@@ -14,6 +14,5 @@ public class KillEffects extends Module {
         LightningEntity lightningEntity = new LightningEntity(EntityType.LIGHTNING_BOLT, mc.world);
         lightningEntity.refreshPositionAfterTeleport(entity.getX(), entity.getY(), entity.getZ());
         mc.world.addEntity(lightningEntity);
-
     }
 }

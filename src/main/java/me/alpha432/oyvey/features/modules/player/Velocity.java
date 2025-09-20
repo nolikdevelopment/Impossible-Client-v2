@@ -15,6 +15,7 @@ public class Velocity extends Module {
     public Setting<Boolean> blockPush = bool("BlockPush", true);
     public Setting<Boolean> entityPush = bool("EntityPush", true);
     public Setting<Boolean> explosion = bool("Explosion", true);
+    public Setting<Boolean> fishings = bool("Fishings", true);
 
     public Velocity() {
         super("Velocity", "Removes velocity from explosions and entities", Category.PLAYER, true, false, false);
@@ -32,7 +33,7 @@ public class Velocity extends Module {
             ((EntityVelocityUpdateS2CPacketAccessor) packet).setY((int) ((y + velocity.y) * 8000));
             ((EntityVelocityUpdateS2CPacketAccessor) packet).setZ((int) ((z + velocity.z) * 8000));
         }
-        if (explosion.getValue() && event.getPacket() instanceof ExplosionS2CPacket packet) event.cancel();
+        if (explosion.getValue() && event.getPacket() instanceof ExplosionS2CPacket) event.cancel();
     }
 
     @Override

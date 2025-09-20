@@ -15,9 +15,8 @@ public class Sprint extends Module {
     @Override
     public void onTick() {
         if (nullCheck()) return;
-        if (!mc.player.horizontalCollision && mc.player.forwardSpeed > 0 && !mc.player.isSneaking() && !mc.player.isUsingItem()) {
-            mc.player.setSprinting(true);
+        if (!mc.player.isSprinting() && mc.player.forwardSpeed > 0 && !mc.player.isSneaking() && !mc.player.isUsingItem()) {
+               mc.player.setSprinting(true);
+           }
         }
     }
-}
-

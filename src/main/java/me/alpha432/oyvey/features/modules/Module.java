@@ -19,7 +19,12 @@ import net.minecraft.client.network.PendingUpdateManager;
 import net.minecraft.client.network.SequencedPacketCreator;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Formatting;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Module extends Feature implements Jsonable {
     private final String description;
@@ -31,6 +36,7 @@ public class Module extends Feature implements Jsonable {
     public boolean hasListener;
     public boolean alwaysListening;
     public boolean hidden;
+    public static List<Module> enabledModules = new ArrayList<>();
 
     public Module(String name, String description, Category category, boolean hasListener, boolean hidden, boolean alwaysListening) {
         super(name);
@@ -98,6 +104,7 @@ public class Module extends Feature implements Jsonable {
         this.onEnable();
         if (OyVey.moduleManager.getModuleByClass(Notifications.class).isEnabled()) {
             Command.sendMessage(Formatting.WHITE + this.getDisplayName() +":" + Formatting.GREEN + " on.");
+            mc.player.getWorld().playSound(mc.player.getX(), mc.player.getY(), mc.player.getZ(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP , mc.player.getSoundCategory(), 1, 0, false);
         }
         if (this.isOn() && this.hasListener && !this.alwaysListening) {
             EVENT_BUS.register(this);
@@ -111,6 +118,7 @@ public class Module extends Feature implements Jsonable {
         this.enabled.setValue(false);
         if (OyVey.moduleManager.getModuleByClass(Notifications.class).isEnabled()) {
             Command.sendMessage(Formatting.WHITE + this.getDisplayName() +":" + Formatting.RED + " off.");
+            mc.player.getWorld().playSound(mc.player.getX(), mc.player.getY(), mc.player.getZ(), SoundEvents.BLOCK_AMETHYST_BLOCK_BREAK , mc.player.getSoundCategory(), 1, 0, false);
         }
         this.onToggle();
         this.onDisable();
@@ -228,8 +236,7 @@ public class Module extends Feature implements Jsonable {
             return this.name;
         }
     }
-    public void sendPacket(Packet<?> packet){
-        if (mc.getNetworkHandler() != null) {
+    public void sendPacket(Packet<?> packet){       if (mc.getNetworkHandler() != null) {
             mc.getNetworkHandler().sendPacket(packet);
         }
     }

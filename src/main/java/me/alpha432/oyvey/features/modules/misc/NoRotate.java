@@ -20,8 +20,6 @@ public class NoRotate extends Module {
             ((PlayerPositionMixin) (Object) packet.change()).setPitch(mc.player.getPitch());
             packet.relatives().remove(PositionFlag.X_ROT);
             packet.relatives().remove(PositionFlag.Y_ROT);
-
-
         }
     }
 }

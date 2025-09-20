@@ -2,10 +2,7 @@ package me.alpha432.oyvey.features.modules.movement;
 
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Setting;
-import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import net.minecraft.client.util.InputUtil;
 
 
@@ -31,8 +28,12 @@ public class NoSlow extends Module {
                 binding.setPressed(InputUtil.isKeyPressed(mc.getWindow().getHandle(), InputUtil.fromTranslationKey(binding.getBoundKeyTranslationKey()).getCode()));
             }
         }
+        if (food.getValue()) {
+
+            }
+        }
     }
-}
+
 
 
 

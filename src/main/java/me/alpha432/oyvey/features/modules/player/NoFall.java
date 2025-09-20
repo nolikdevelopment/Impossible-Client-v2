@@ -13,13 +13,15 @@ public class NoFall extends Module {
 
     @Override
     public void onUpdate() {
-        if( !mc.player.isOnGround() && OyVey.positionManager.getFallDistance() > 3 )
-        {
+        if (!mc.player.isOnGround() && OyVey.positionManager.getFallDistance() > 3 ) {
             boolean bl = mc.player.horizontalCollision;
             PlayerMoveC2SPacket.Full pakcet = new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY() + 0.000000001, mc.player.getZ(),
                     mc.player.getYaw(), mc.player.getPitch(), false, bl );
             mc.player.networkHandler.sendPacket(pakcet);
 
         }
+    }
+    @Override public String getDisplayInfo() {
+        return "Packet";
     }
 }

@@ -21,8 +21,7 @@ public class KillSound extends Module {
     public void onDeath(PlayerEntity player) {
         if (mode.getValue() == Mod.Thunder)
             player.getEntityWorld().playSound(player, player.getBlockPos(), SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER, SoundCategory.PLAYERS, 3F, 2F);
-
-        if(mode.getValue()==Mod.Xp)
+        if(mode.getValue() ==Mod.Xp)
                 player.getEntityWorld().playSound(player, player.getBlockPos(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 3F, 2F);
 
         if (mode.getValue() == Mod.Mace)
@@ -30,3 +29,4 @@ public class KillSound extends Module {
             }
     }
     
+x

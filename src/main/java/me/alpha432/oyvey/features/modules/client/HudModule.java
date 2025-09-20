@@ -65,7 +65,7 @@ public class HudModule extends Module {
             event.getContext().drawTextWithShadow(mc.textRenderer, "FPS: " + Formatting.WHITE + mc.getCurrentFps(), 2, 58, OyVey.colorManager.getColorWithAlpha(255));
         }
         if (xyz.getValue()) {
-            event.getContext().drawTextWithShadow(mc.textRenderer, "XYZ: " + Formatting.WHITE + mc.player.getBlockX() + " " + mc.player.getBlockY() + " " + mc.player.getBlockZ() + (nether ? (" [" + mc.player.getBlockX() * 8 + ", " + mc.player.getBlockY() + ", " + mc.player.getBlockZ() * 8 + "]") : (" [" + mc.player.getBlockX() / 8 + ", " + mc.player.getBlockY() / 8 + ", " + mc.player.getBlockZ() / 8 + "]")), 2, height - 11 - j, OyVey.colorManager.getColorWithAlpha(255));
+            event.getContext().drawTextWithShadow(mc.textRenderer, "XYZ: " + Formatting.WHITE + mc.player.getBlockX() + ", " + mc.player.getBlockY() + ", " + mc.player.getBlockZ() + (nether ? (" (" + mc.player.getBlockX() * 8 + ", " + mc.player.getBlockY() + ", " + mc.player.getBlockZ() * 8 + ")") : (" (" + mc.player.getBlockX() / 8 + ", " + mc.player.getBlockY() / 8 + ", " + mc.player.getBlockZ() / 8 + ")")), 2, height - 11 - j, OyVey.colorManager.getColorWithAlpha(255));
         }
         if (direction.getValue()) {
             event.getContext().drawTextWithShadow(mc.textRenderer, getDirection4D() + Formatting.WHITE + "Yaw: " + (int) yawPitch + " " + "Pitch: " + (int) mc.player.getPitch(), 2, height - 11 - j - 11, OyVey.colorManager.getColorWithAlpha(255));

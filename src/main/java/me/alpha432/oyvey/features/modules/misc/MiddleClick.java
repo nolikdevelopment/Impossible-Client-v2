@@ -5,12 +5,12 @@ import me.alpha432.oyvey.features.commands.Command;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.util.InventoryUtil;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.EnderPearlItem;
 import net.minecraft.item.FireworkRocketItem;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket;
 import net.minecraft.util.Formatting;
@@ -28,7 +28,8 @@ public class MiddleClick extends Module {
     }
 
     @Override public void onTick() {
-        if (GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), 2) == 1) {
+        if (mc.currentScreen instanceof ChatScreen) return;
+        if (mc.mouse.wasMiddleButtonClicked()) {
             if (!pressed) {
                 if (pearl.getValue()) {
                     int oldslot = mc.player.getInventory().selectedSlot;
@@ -36,6 +37,7 @@ public class MiddleClick extends Module {
                     if (slot != -1) {
                         InventoryUtil.switchSlot(slot);
                         sendSequencedPacket(id -> new PlayerInteractItemC2SPacket(Hand.MAIN_HAND, id, mc.player.getYaw(), mc.player.getPitch()));
+                        mc.player.swingHand(Hand.MAIN_HAND);
                         InventoryUtil.switchSlot(oldslot);
                     }
                 }
@@ -46,6 +48,7 @@ public class MiddleClick extends Module {
                         if (slot != -1) {
                             InventoryUtil.switchSlot(slot);
                             sendSequencedPacket(id -> new PlayerInteractItemC2SPacket(Hand.MAIN_HAND, id, mc.player.getYaw(), mc.player.getPitch()));
+                            mc.player.swingHand(Hand.MAIN_HAND);
                             InventoryUtil.switchSlot(oldslot);
                         }
                     }

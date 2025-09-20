@@ -15,13 +15,13 @@ public class ClickGui
     private static ClickGui INSTANCE = new ClickGui();
     public Setting<String> prefix = str("Prefix", ".");
     public Setting<Integer> red = num("Red", 0, 0, 255);
-    public Setting<Integer> green = num("Green", 0, 0, 255);
+    public Setting<Integer> green = num("Green", 255, 0, 255);
     public Setting<Integer> blue = num("Blue", 255, 0, 255);
     public Setting<Integer> hoverAlpha = num("Alpha", 180, 0, 255);
-    public Setting<Integer> topRed = num("SecondRed", 0, 0, 255);
-    public Setting<Integer> topGreen = num("SecondGreen", 0, 0, 255);
-    public Setting<Integer> topBlue = num("SecondBlue", 150, 0, 255);
-    public Setting<Integer> alpha = num("HoverAlpha", 240, 0, 255);
+    public Setting<Integer> topRed = num("SecondRed", 61, 0, 255);
+    public Setting<Integer> topGreen = num("SecondGreen", 232, 0, 255);
+    public Setting<Integer> topBlue = num("SecondBlue", 255, 0, 255);
+    public Setting<Integer> alpha = num("HoverAlpha", 255, 0, 255);
     public Setting<Boolean> rainbow = bool("Rainbow", false);
     public Setting<Integer> rainbowHue = num("Delay", 240, 0, 600);
     public Setting<Float> rainbowBrightness = num("Brightness ", 150.0f, 1.0f, 255.0f);
@@ -65,6 +65,10 @@ public class ClickGui
             return;
         }
         mc.setScreen(OyVeyGui.getClickGui());
+    }
+    @Override
+    public void onDisable() {
+        mc.setScreen(null);
     }
 
     @Override
