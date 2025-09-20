@@ -27,7 +27,7 @@ public class CameraMixin {
     @ModifyArgs(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;clipToSpace(F)F"))
     private void update(Args args) {
         ViewClip viewClip = OyVey.moduleManager.getModuleByClass(ViewClip.class);
-        if (viewClip.isEnabled()&& viewClip.player.getValue())
+        if (viewClip.isEnabled() && viewClip.player.getValue())
             args.set(0, OyVey.moduleManager.getModuleByClass(ViewClip.class).range.getValue().floatValue());
     }
     @Inject(method = "clipToSpace", at = @At("HEAD"), cancellable = true)

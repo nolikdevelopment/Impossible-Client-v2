@@ -10,11 +10,14 @@ import me.alpha432.oyvey.features.modules.player.Velocity;
 import me.alpha432.oyvey.features.modules.render.NoRender;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 import static me.alpha432.oyvey.util.traits.Util.mc;
@@ -49,29 +52,32 @@ public class MixinClientPlayerEntity {
         if (noSlow.isEnabled() && noSlow.portals.getValue()) return null;
         return original;
     }
+    // TODO: почему тут спринт? - Я В ДУШЕ НЕ ЕБУ, 15 БЛОКОВ В СЕК АНЮЗЛЕСС
     @ModifyExpressionValue(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z"))
     private boolean tickMovement$isUsingItem(boolean original) {
         NoSlow noSlow = OyVey.moduleManager.getModuleByClass(NoSlow.class);
         if (noSlow.isEnabled() && noSlow.food.getValue()) {
-            mc.player.setSprinting(true);
             return false;
         }
 
         return original;
     }
     @ModifyExpressionValue(method = "canStartSprinting", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z"))
+    // TODO: почему тут спринт? - Я В ДУШЕ НЕ ЕБУ, 15 БЛОКОВ В СЕК АНЮЗЛЕСС
     private boolean canStartSprinting(boolean original) {
         NoSlow noSlow = OyVey.moduleManager.getModuleByClass(NoSlow.class);
         if (noSlow.isEnabled() && noSlow.food.getValue()) {
-            mc.player.setSprinting(true);
             return false;
         }
         return original;
-
     }
-
-
-
+    @Inject(method = "shouldSlowDown", at = @At("HEAD"), cancellable = true)
+    private void sneak(CallbackInfoReturnable<Boolean> cir) {
+        NoSlow noSlow = OyVey.moduleManager.getModuleByClass(NoSlow.class);
+        if (noSlow.isEnabled() && noSlow.sneak.getValue()) {
+            cir.setReturnValue(false);
+        }
+    }
 }
 
 

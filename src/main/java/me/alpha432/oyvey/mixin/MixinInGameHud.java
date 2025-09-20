@@ -48,7 +48,6 @@ public class MixinInGameHud {
         NoRender noRender = OyVey.moduleManager.getModuleByClass(NoRender.class);
         if (noRender.isEnabled() && noRender.potions.getValue());
         info.cancel();
-
     }
 
     @Inject(method = "renderPortalOverlay", at = @At("HEAD"), cancellable = true)
@@ -86,6 +85,8 @@ public class MixinInGameHud {
 
 
     }
+
+
 
 
 
